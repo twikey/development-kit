@@ -1,0 +1,1668 @@
+openapi: 3.0.0
+servers:
+    - url: '{{url}}'
+      description: Twikey for {{name}}
+info:
+    title: Twikey API for {{name}}
+    description: >-
+        # Twikey API
+
+        Version: 1.0.2
+
+
+        ## General use
+
+        Twikey has put in place a number of services enabling software partners,
+        companies with own ERP or CRM systems, banks and other 3rd parties to
+        exchange information . This page describes the different calls that are
+        available to you. The calls allow integration in a number of ways.
+
+
+        All exchanges require a valid AuthorizationToken passed as a header named
+        "Authorization". The AuthorizationToken can be retrieved via the login call
+        and is valid for 24h. Exchanges can respond with both JSON & XML responses
+        (based on the "Accept" header).
+
+
+        Since there are numerous ways a company can allow its customers to pay, we
+        provide a couple of high level use-cases to get you up and running in no
+        time.
+
+
+        ## Sample use cases
+
+
+        ### The fitness scenario
+
+
+        Imagine you're going to the fitness where you exercise every once in a
+        while.
+
+        Since this doesn't come free you pay a monthly subscription fee.
+
+        This subscription fee is a recurring payment (we'll come back to that
+        later).
+
+        But since all those exercises get you thirsty, you want to drink there too.
+
+        But of course, there are hotter and colder days. So how much you drink can
+        vary.
+
+
+        Regardless of what you consume, the fitness wants to get paid.
+
+        But you'd like to avoid getting out your wallet when you're all sweaty.
+
+        So your fitness made the great decision to use direct debits to allow you to
+        pay.
+
+        At the end of the month they add the recurring amount to the one-off's (the
+        drinks).
+
+        They send the payment request to the bank. Everyone's happy and relax.
+
+
+        What did the fitness do to achieve this relaxed way of working:
+
+
+        First of all, everything starts with a mandate. When a customer enrolls at
+        the fitness he fills in the details for the internal bookkeeping of the
+        fitness. The same information is sent to the prepare call.
+
+        This returns a URL (representing an unsigned mandate) that opens up after
+        entering all details in the enrollment screen.
+
+        Since the fitness has an internal subscription number they want to use to
+        track payments and have
+
+        multiple subscriptions (eg. with and without personal trainer) they add both
+        parameters in the prepare call. Making it visible in the mandate overview.
+
+
+        Once the customer filled in the account info and signed the mandate he's
+        sent back to the fitness website with a "thank you" message.
+
+        When a customer ask for a drink at the bar, the cash register calls the
+        transaction endpoint with the details and amount. These are one-off
+        transactions. Recurring transactions can either be handled the same way or
+        if a subscription parameter was added in the prepare call, a recurring
+        transaction is automatically added every month to get this subscription
+        paid. At the end of each month, the file is created and sent to the bank
+        manually via the collect call or automatically every night.
+
+        Your bill is paid and the bank sends you the money. When the bank sends us
+        back the account information, it is marked in your transaction overview that
+        the transaction was paid. This information can be retrieved by the payment
+        call. This call returns all new payment information since the last call. If
+        a payment didn't succeed, you can configure what will happen next in the
+        interface in the dunning section.
+
+
+        ### The parking app scenario
+
+
+        Because my customers don't like running in the rain looking for a parking
+        meter while there's an app for that.
+
+        How can I use Twikey to get my parking fees paid? First of all, you need a
+        mandate .
+
+        There are three possible options to have this mandate signed:
+
+
+        Use an in-app browser with the link retrieved via the prepare call
+
+        Use the sign call to invite the user to sign via an sms confirmation
+
+        Use the sign call adding the manual signature as a png-image in the payload
+
+        Once the mandate is signed, in-app purchases can be sent from the backend of
+        the app, collected the same way as mentioned in the fitness scenario.
+
+
+        ### The (off-line) webshop scenario
+
+
+        I have a shop where people come in physically but I also have a webshop.
+
+        I want people who signed a mandate (either online via the above flow or
+        physically) to be able to purchase something
+
+        from the online shop without requiring them to use their credit card and if
+        possible give them the sameconvenience in the physical shop.
+
+        This way I can send them an invoice every month by only registering their
+        purchases and collecting the payment via direct debit.
+
+
+        In the past, I had to send out all invoices and patiently waited for them to
+        be paid.
+
+        Since I'm not the most patient person on earth and even a bit chaotic at
+        times,
+
+        I'd rather collect the money directly from my customers. This way they can't
+        forget to pay and I don't need to remind them to do so.
+
+        How convenient this is for both my customers and I.
+    version: 1.0.0
+    termsOfService: 'https://twikey.com/tc.html'
+    contact:
+        email: support@twikey.com
+        name: Twikey Support
+    license:
+        name: Apache 2.0
+        url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+    - name: Login
+    - name: Mandate
+    - name: Subscriptions
+    - name: Transactions
+    - name: Collections
+    - name: Invoices
+    - name: Reconciliation
+    - name: Paymentlinks
+    - name: Credit Transfer
+    - name: Issuers
+    - name: Customers
+    - name: Other
+    - name: Logout
+components:
+    securitySchemes:
+        TwikeyToken:
+            description: You receive the AuthorizationToken by logging in via the login endpoint
+            type: apiKey
+            in: header
+            name: Authorization
+paths:
+    /:
+        post:
+            tags:
+                - Login
+            summary: Login
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                apiToken:
+                                    type: string
+                                    example: '{{api_key}}'
+                                otp:
+                                    type: string
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    headers:
+                        Authorization:
+                            schema:
+                                type: string
+                                description: AuthorizationToken
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                            example:
+                                Authorization: "dabed12a-ae53-4ef0-be2c-17020d8e6d5a"
+        get:
+            tags:
+                - Logout
+            summary: Logout
+            description: Logout
+            security:
+                -   TwikeyToken: []
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /invite:
+        post:
+            tags:
+                - Mandate
+            summary: Invite a customer
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                ct:
+                                    type: integer
+                                    example: '{{ct}}'
+                                l:
+                                    type: string
+                                iban:
+                                    type: string
+                                bic:
+                                    type: string
+                                mandateNumber:
+                                    type: string
+                                email:
+                                    type: string
+                                lastname:
+                                    type: string
+                                firstname:
+                                    type: string
+                                mobile:
+                                    type: string
+                                address:
+                                    type: string
+                                city:
+                                    type: string
+                                zip:
+                                    type: string
+                                country:
+                                    type: string
+                                companyName:
+                                    type: string
+                                vatno:
+                                    type: string
+                                form:
+                                    type: string
+                                contractNumber:
+                                    type: string
+                                campaign:
+                                    type: string
+                                prefix:
+                                    type: string
+                                check:
+                                    type: string
+                                reminderDays:
+                                    type: string
+                                sendInvite:
+                                    type: string
+                                document:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /sign:
+        post:
+            tags:
+                - Mandate
+            summary: Sign a mandate
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                ct:
+                                    type: integer
+                                l:
+                                    type: string
+                                method:
+                                    type: string
+                                    example: sms
+                                mandateNumber:
+                                    type: string
+                                iban:
+                                    type: string
+                                bic:
+                                    type: string
+                                email:
+                                    type: string
+                                lastname:
+                                    type: string
+                                firstname:
+                                    type: string
+                                mobile:
+                                    type: string
+                                address:
+                                    type: string
+                                city:
+                                    type: string
+                                zip:
+                                    type: string
+                                country:
+                                    type: string
+                                companyName:
+                                    type: string
+                                vatno:
+                                    type: string
+                                form:
+                                    type: string
+                                contractNumber:
+                                    type: string
+                                signDate:
+                                    type: string
+                                place:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /mandate:
+        get:
+            tags:
+                - Mandate
+            summary: Update Feed
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Mandate
+            summary: Cancel a mandate
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /mandate/detail:
+        get:
+            tags:
+                - Mandate
+            summary: Get Mandate Details
+            description: Get Mandate Details
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /mandate/update:
+        post:
+            tags:
+                - Mandate
+            summary: Update Mandate Details
+            description: Get Mandate Details
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                mndtId:
+                                    type: string
+                                mobile:
+                                    type: number
+                                    example: '+32479123123'
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /customeraccess:
+        post:
+            tags:
+                - Mandate
+            summary: Customer Access
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                mndtId:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /mandate/pdf:
+        get:
+            tags:
+                - Mandate
+            summary: Retrieve PDF
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        post:
+            tags:
+                - Mandate
+            summary: Upload PDF
+            requestBody:
+                content:
+                    text/plain: {}
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/octet-stream
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /legal:
+        get:
+            tags:
+                - Mandate
+            summary: Retrieve legal terms
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /subscription/query:
+        get:
+            tags:
+                - Subscriptions
+            summary: Query subscriptions
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /subscription/{ref}:
+        get:
+            tags:
+                - Subscriptions
+            summary: Subscription detail
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: ref
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        post:
+            tags:
+                - Subscriptions
+            summary: Update subscription
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                mndtId:
+                                    type: string
+                                    description: Mandate to use
+                                message:
+                                    type: string
+                                    description: Message to the subscriber
+                                plan:
+                                    type: string
+                                    description: Base plan to use
+                                ref:
+                                    type: string
+                                    description: Reference of the subscription (important for updates)
+                                amount:
+                                    type: string
+                                    description: Amount of the transaction
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: ref
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Subscriptions
+            summary: Delete subscription
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: ref
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /subscription:
+        post:
+            tags:
+                - Subscriptions
+            summary: Add subscription
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                mndtId:
+                                    type: string
+                                    description: Mandate to use
+                                message:
+                                    type: string
+                                    description: Message to the subscriber
+                                plan:
+                                    type: string
+                                    description: Base plan to use
+                                ref:
+                                    type: string
+                                    description: Reference of the subscription (important for updates)
+                                amount:
+                                    type: string
+                                    description: Amount of the transaction
+                                stopAfter:
+                                    type: string
+                                    description: Number of times to execute
+                                day:
+                                    type: string
+                                    description: Day of week/month to execute
+                                recurrence:
+                                    type: string
+                                    description: 1w / 1m / 2m / 3m / 6m /12m (default 1m)
+                                start:
+                                    type: string
+                                    description: Optional start of subscription eg. 2022-11-01
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transaction:
+        post:
+            tags:
+                - Transactions
+            summary: New transaction
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                mndtId:
+                                    type: string
+                                date:
+                                    type: string
+                                reqcolldt:
+                                    type: string
+                                message:
+                                    type: string
+                                ref:
+                                    type: string
+                                amount:
+                                    type: string
+                                place:
+                                    type: string
+                                refase2e:
+                                    type: string
+                                    description: >-
+                                        The reference is used as E2E identifier for the first
+                                        payment
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Transactions
+            summary: Transaction feed
+            security:
+                -   TwikeyToken: []
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        put:
+            tags:
+                - Transactions
+            summary: Update a transaction
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                id:
+                                    type: string
+                                reqcolldt:
+                                    type: string
+                                message:
+                                    type: string
+                                ref:
+                                    type: string
+                                amount:
+                                    type: string
+                                place:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Transactions
+            summary: Remove transaction
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transaction/detail:
+        get:
+            tags:
+                - Transactions
+            summary: Transaction status
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transaction/action:
+        post:
+            tags:
+                - Transactions
+            summary: Action on a transaction
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                id:
+                                    type: string
+                                action:
+                                    type: string
+                                    example: reoffer
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /collect:
+        post:
+            tags:
+                - Collections
+            summary: Execute collection
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                ct:
+                                    type: integer
+                                colltndt:
+                                    type: string
+                                mndtId:
+                                    type: string
+                                prenotify:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Collections
+            summary: Status collection
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                      type: string
+                - name: pmtinfid
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /invoice:
+        post:
+            tags:
+                - Invoices
+            summary: New Invoice
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                number: '{{invoiceNumber}}'
+                                title: Invoice {{invoiceNumber}}
+                                remittance: '123456789123'
+                                ct: 1
+                                amount: 100
+                                date: '{{invoiceDate}}'
+                                duedate: '{{dueDate}}'
+                                customer:
+                                    email: api-{{$randomInt}}@twikey.com
+                                    firstName: '{{$randomFirstName}}'
+                                    lastName: '{{$randomLastName}}'
+                                    address: Derbystraat 43
+                                    city: Gent
+                                    zip: '9000'
+                                    country: BE
+                                    l: nl
+                                    mobile: '32498665995'
+                                pdf: 'base64 of the invoice'
+            security:
+                -   TwikeyToken: []
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Invoices
+            summary: Invoices Feed
+            security:
+                -   TwikeyToken: [ ]
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /invoice/{idOrNumber}:
+        get:
+            tags:
+                - Invoices
+            summary: Invoice Details
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: idOrNumber
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /invoice/{id}:
+        put:
+            tags:
+                - Invoices
+            summary: Update Invoice
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                title: Invoice Updated
+                                date: '{{invoiceDate}}'
+                                duedate: '{{dueDate}}'
+                                pdf: 'base64 of the invoice'
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: id
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /files:
+        post:
+            tags:
+                - Reconciliation
+            summary: Reconciliation Generate
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                sdd:
+                                    type: boolean
+                                    example: 'true'
+                                format:
+                                    type: string
+                                    example: camt
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Reconciliation
+            summary: Reconciliation List Files
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /files/{file}:
+        get:
+            tags:
+                - Reconciliation
+            summary: Reconciliation Files Download
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: file
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /payment/link:
+        post:
+            tags:
+                - Paymentlinks
+            summary: Create paymentlink
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                lastname:
+                                    type: string
+                                firstname:
+                                    type: string
+                                message:
+                                    type: string
+                                ref:
+                                    type: string
+                                amount:
+                                    type: string
+                                redirectUrl:
+                                    type: string
+                                place:
+                                    type: string
+                                expiry:
+                                    type: string
+                                sendInvite:
+                                    type: string
+                                address:
+                                    type: string
+                                city:
+                                    type: string
+                                zip:
+                                    type: string
+                                country:
+                                    type: string
+                                    description: Country code 2 letters eg. BE/NL/FR
+                                l:
+                                    type: string
+                                    description: Language en/fr/nl/...
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Paymentlinks
+            summary: Status paymentlink
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: id
+                  in: query
+                  schema:
+                      type: string
+                - name: ref
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Paymentlinks
+            summary: Remove paymentlink
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /payment/link/feed:
+        get:
+            tags:
+                - Paymentlinks
+            summary: Paymentlink Feed
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /payment/methods:
+        get:
+            tags:
+                - Other
+            summary: Get payment methods
+            description: Template payment methods
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /payment/link/refund:
+        post:
+            tags:
+                - Paymentlinks
+            summary: Refund paymentlink
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                id:
+                                    type: string
+                                message:
+                                    type: string
+                                amount:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transfer:
+        post:
+            tags:
+                - Credit Transfer
+            summary: Create new credit transfer
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                iban:
+                                    type: string
+                                message:
+                                    type: string
+                                amount:
+                                    type: string
+                                date:
+                                    type: string
+                                place:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Credit Transfer
+            summary: Get credit transfer feed
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Credit Transfer
+            summary: Remove a credit transfer
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transfer/complete:
+        post:
+            tags:
+                - Credit Transfer
+            summary: Batch creation
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                ct:
+                                    type: integer
+                                    example: '1364'
+                                iban:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transfers/beneficiaries:
+        get:
+            tags:
+                - Credit Transfer
+            summary: Get all beneficiaries list
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        post:
+            tags:
+                - Credit Transfer
+            summary: Create/update a beneficiary
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                iban:
+                                    type: string
+                                bic:
+                                    type: string
+                                address:
+                                    type: string
+                                zip:
+                                    type: string
+                                city:
+                                    type: string
+                                country:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /transfers/beneficiaries/{iban}:
+        delete:
+            tags:
+                - Credit Transfer
+            summary: Remove a beneficiary
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: iban
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /issuers/{method}:
+        get:
+            tags:
+                - Issuers
+            summary: Fetch connected banks
+            description: Fetch connected banks
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: method
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /customer/{customerNumber}:
+        patch:
+            tags:
+                - Customers
+            summary: Update a customer
+            description: Login
+            requestBody:
+                content: {}
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: customerNumber
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /ibanblacklist:
+        post:
+            tags:
+                - Other
+            summary: Blacklist account
+            description: Blacklist
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                iban:
+                                    type: string
+                                rsn:
+                                    type: string
+                                state:
+                                    type: string
+                                notify:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Other
+            summary: List blacklisted accounts
+            description: Blacklist
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Other
+            summary: Remove blacklisted account
+            description: Blacklist
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /reporting:
+        get:
+            tags:
+                - Other
+            summary: Account reporting
+            description: reporting
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /ident:
+        post:
+            tags:
+                - Other
+            summary: Retrieve Identification url
+            description: identification
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                ct:
+                                    type: string
+                                    description: Template ID
+                                bic:
+                                    type: string
+                                method:
+                                    type: string
+                                    description: itsme or iDIN
+                                l:
+                                    type: string
+                                    description: Language
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /reservation:
+        post:
+            tags:
+                - Other
+            summary: Transaction Reservation
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                mndtId:
+                                    type: string
+                                date:
+                                    type: string
+                                reqcolldt:
+                                    type: string
+                                message:
+                                    type: string
+                                ref:
+                                    type: string
+                                amount:
+                                    type: string
+                                place:
+                                    type: string
+                                reservation:
+                                    type: boolean
+                                    description: Indicates this is a reservation (should contain true)
+                                    example: 'true'
+                                reservationMinimum:
+                                    type: string
+                                    description: >-
+                                        Optional value, which if passed allows Twikey to reserve the
+                                        highest amount lower than the amount but higher than this
+                                        value
+                                reservationExpiration:
+                                    type: string
+                                    description: >-
+                                        Optional, Date after which this reservation automatically is
+                                        voided (YYYY-MM-DDThh:mm:ssZ)
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+        delete:
+            tags:
+                - Other
+            summary: Delete Reservation
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+                - name: X-RESERVATION
+                  in: header
+                  schema:
+                      type: string
+                  example: '{{reservation id}}'
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /ibancheck:
+        post:
+            tags:
+                - Other
+            summary: IBAN Name Check
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                iban:
+                                    type: string
+            security:
+                -   TwikeyToken: []
+            parameters:
+                - name: Content-Type
+                  in: header
+                  schema:
+                      type: string
+                  example: application/x-www-form-urlencoded
+            responses:
+                '200':
+                    description: Successful response
+                    content:
+                        application/json: {}
