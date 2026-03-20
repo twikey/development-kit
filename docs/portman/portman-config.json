@@ -73,6 +73,20 @@
           "file:scripts/transaction-status.test.js"
         ],
         "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/collect",
+        "tests": [
+          "file:scripts/collect-execute.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/collect/query",
+        "tests": [
+          "file:scripts/collect-status.test.js"
+        ],
+        "overwrite": true
       }
     ]
   }
