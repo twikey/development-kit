@@ -10,9 +10,11 @@ You can find code samples for eg.
 * Verifying the signature of the exit url
 * Calculating the OTP when using enhanced security
 
+## Guides
+
+Guides for using the Twikey API and other developer recourses can be found at [Twikey developers](https://www.twikey.com/developers)
+
 ## Testing the API
 
-[Postman](https://www.postman.com/) is an excellent API Testing solution, the postman file can be found in the [root of this repo](https://github.com/twikey/snippets/blob/master/postman.json) 
-or download an **already customised** one from your own environment [in the API section](https://www.twikey.com/r/admin#/c/settings/api).
+Both an [OpenAPI](https://swagger.io/specification/) spec and a [Postman](https://www.postman.com/) collection are available in the [docs](docs/) folder and in the [latest release](https://github.com/twikey/development-kit/releases/latest). You can use either to explore and test all endpoints.
 
-With this file you can test all endpoints.
