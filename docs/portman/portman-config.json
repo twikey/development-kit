@@ -101,6 +101,34 @@
           "file:scripts/invoice-update.test.js"
         ],
         "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/transfer",
+        "tests": [
+          "file:scripts/credit-transfer-new.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/transfer/complete",
+        "tests": [
+          "file:scripts/credit-transfer-batch.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/reservation",
+        "tests": [
+          "file:scripts/reservation.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/issuers/{method}",
+        "tests": [
+          "file:scripts/issuer-banks.test.js"
+        ],
+        "overwrite": true
       }
     ]
   },
