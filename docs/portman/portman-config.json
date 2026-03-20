@@ -1,0 +1,175 @@
+{
+  "version": 1.0,
+  "globals": {
+    "collectionVariables": {
+      "baseUrl": "https://api.beta.twikey.com/creditor",
+      "api_key": "",
+      "Authorization": "",
+      "ct": "",
+      "mndtId": "",
+      "l": "en"
+    },
+    "securityOverwrites": {
+      "apiKey": {
+        "value": "{{Authorization}}",
+        "key": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "tests": {
+    "contractTests": [
+      {
+        "openApiOperation": "*::/*",
+        "statusSuccess": {
+          "enabled": true
+        }
+      }
+    ],
+    "extendTests": [
+      {
+        "openApiOperation": "POST::/",
+        "tests": [
+          "file:scripts/login.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/invite",
+        "tests": [
+          "file:scripts/mandate-invite.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/sign",
+        "tests": [
+          "file:scripts/mandate-sign.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/mandate",
+        "tests": [
+          "file:scripts/mandate-feed.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/mandate/detail",
+        "tests": [
+          "file:scripts/mandate-detail.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/transaction",
+        "tests": [
+          "file:scripts/transaction-new.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/transaction",
+        "tests": [
+          "file:scripts/transaction-feed.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/transaction/detail",
+        "tests": [
+          "file:scripts/transaction-status.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/collect",
+        "tests": [
+          "file:scripts/collect-execute.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/collect/query",
+        "tests": [
+          "file:scripts/collect-status.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/invoice",
+        "tests": [
+          "file:scripts/invoice-new.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "PUT::/invoice/{uuid}",
+        "tests": [
+          "file:scripts/invoice-update.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/transfer",
+        "tests": [
+          "file:scripts/credit-transfer-new.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/transfer/complete",
+        "tests": [
+          "file:scripts/credit-transfer-batch.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/reservation",
+        "tests": [
+          "file:scripts/reservation.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/issuers/{method}",
+        "tests": [
+          "file:scripts/issuer-banks.test.js"
+        ],
+        "overwrite": true
+      }
+    ]
+  },
+  "overwrites": [
+    {
+      "openApiOperation": "POST::/",
+      "overwriteRequestBody": [
+        {
+          "key": "apiToken",
+          "value": "{{api_key}}",
+          "overwrite": true
+        },
+        {
+          "key": "otp",
+          "value": "",
+          "overwrite": true
+        }
+      ]
+    }
+  ],
+  "operationPreRequestScripts": [
+    {
+      "openApiOperation": "POST::/invoice",
+      "scripts": [
+        "file:scripts/invoice-prerequest.js"
+      ]
+    },
+    {
+      "openApiOperation": "PUT::/invoice/{uuid}",
+      "scripts": [
+        "file:scripts/invoice-update-prerequest.js"
+      ]
+    }
+  ]
+}

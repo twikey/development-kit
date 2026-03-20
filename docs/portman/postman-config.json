@@ -1,0 +1,6 @@
+{
+  "alwaysInheritAuthentication": true,
+  "folderStrategy": "Tags",
+  "parametersResolution": "Example",
+  "enableOptionalParameters": false
+}

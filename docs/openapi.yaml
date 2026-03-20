@@ -10,7 +10,7 @@ info:
     title: 'Twikey API kit'
     description: |
         
-        Version: 1.0.3
+        Version: 1.0.4
 
         ## General use
 
@@ -224,6 +224,7 @@ paths:
                                     example: '{{api_key}}'
                                 otp:
                                     type: integer
+                                    example: ''
                                     format: int64
                                     description: Value calculated based on salt and private key (if enhanced security)
             responses:
@@ -289,102 +290,137 @@ paths:
                                     example: '{{ct}}'
                                 l:
                                     type: string
-                                    description: Language (en/fr/nl/de/pt/es/it)
+                                    example: '{{l}}'
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                 iban:
                                     type: string
+                                    example: ''
                                 bic:
                                     type: string
+                                    example: ''
                                 mandateNumber:
                                     type: string
+                                    example: ''
                                     description: Mandate Identification number (if not generated)
                                 customerNumber:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Customer identifier
                                 email:
                                     type: string
+                                    example: ''
                                 lastname:
                                     type: string
+                                    example: ''
                                 firstname:
                                     type: string
+                                    example: ''
                                 mobile:
                                     type: string
+                                    example: ''
                                     description: mobile number required for sms (International format +32499123445)
                                 address:
                                     type: string
+                                    example: ''
                                     description: Address (street + number)
                                 city:
                                     type: string
+                                    example: ''
                                 zip:
                                     type: string
+                                    example: ''
                                 country:
                                     type: string
+                                    example: ''
                                     description: ISO format (2 letters)
                                 companyName:
                                     type: string
+                                    example: ''
                                     description: the company name (if debtor is company)
                                 vatno:
                                     type: string
+                                    example: ''
                                     description: the enterprise number (if debtor is company)
                                 contractNumber:
                                     type: string
+                                    example: ''
                                     description: the contract number which can override the one defined in the template.
                                 campaign:
                                     type: string
+                                    example: ''
                                     description: Campaign to include this url in
                                 prefix:
                                     type: string
+                                    example: ''
                                     description: Optional prefix to use in the url (default companyname)
                                 check:
                                     type: boolean
+                                    example: ''
                                     description: If an existing mandate exists, don't prepare a new (based on email + template(=ct))
                                 ed:
                                     type: number
+                                    example: ''
                                     description: Link expiry (epoch ms, max 12 months)
                                 reminderDays:
                                     type: number
+                                    example: ''
                                     description: Send a reminder if contract was not signed after number of days
                                 sendInvite:
                                     type: boolean
+                                    example: ''
                                     description: Send out invite email directly
                                 token:
                                     type: string
+                                    example: ''
                                     description: Return token in exit URL
                                 requireValidation:
                                     type: boolean
+                                    example: ''
                                     description: Force registration page
                                 document:
                                     type: string
+                                    example: ''
                                 transactionAmount:
                                     type: string
+                                    example: ''
                                     description: Amount of the first payment on the mandate after it's signed
                                 transactionMessage:
                                     type: string
+                                    example: ''
                                     description: Payment description
                                 transactionRef:
                                     type: string
+                                    example: ''
                                     description: Payment reference
                                 plan:
                                     type: string
+                                    example: ''
                                     description: Subscription plan name
                                 subscriptionStart:
                                     type: string
+                                    example: ''
                                     format: date
                                     description: Start date (yyyy-mm-dd)
                                 subscriptionRecurrence:
                                     type: string
+                                    example: ''
                                     description: Interval (1w/1m/2m/3m/6m/12m)
                                 subscriptionStopAfter:
                                     type: number
+                                    example: ''
                                     description: Execution count
                                 subscriptionAmount:
                                     type: number
+                                    example: ''
                                     description: Per-transaction amount
                                 subscriptionMessage:
                                     type: string
+                                    example: ''
                                     description: Subscriber message
                                 subscriptionRef:
                                     type: string
+                                    example: ''
                                     description: Unique subscription ID
             security:
                 -   AuthorizationToken: []
@@ -423,10 +459,12 @@ paths:
                             properties:
                                 ct:
                                     type: integer
+                                    example: '{{ct}}'
                                     description: Contract template to use
                                 l:
                                     type: string
-                                    description: Language (en/fr/nl/de/pt/es/it)
+                                    example: '{{l}}'
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                 method:
                                     type: string
                                     description: >
@@ -435,68 +473,91 @@ paths:
                                     example: sms
                                 mandateNumber:
                                     type: string
+                                    example: ''
                                     description: Mandate Identification number (if not generated)
                                 customerNumber:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Customer identifier
                                 iban:
                                     type: string
+                                    example: ''
                                 bic:
                                     type: string
+                                    example: ''
                                 email:
                                     type: string
+                                    example: ''
                                 lastname:
                                     type: string
+                                    example: ''
                                 firstname:
                                     type: string
+                                    example: ''
                                 mobile:
                                     type: string
+                                    example: ''
                                     description: mobile number required for sms (International format +32499123445)
                                 address:
                                     type: string
+                                    example: ''
                                     description: Address (street + number)
                                 city:
                                     type: string
+                                    example: ''
                                 zip:
                                     type: string
+                                    example: ''
                                 country:
                                     type: string
+                                    example: ''
                                     description: ISO format (2 letters)
                                 companyName:
                                     type: string
+                                    example: ''
                                     description: the company name (if debtor is company)
                                 vatno:
                                     type: string
+                                    example: ''
                                     description: the enterprise number (if debtor is company)
                                 contractNumber:
                                     type: string
+                                    example: ''
                                     description: the contract number which can override the one defined in the template.
                                 campaign:
                                     type: string
+                                    example: ''
                                     maxLength: 250
                                     description: Campaign to include this mandate in
                                 signDate:
                                     type: string
+                                    example: ''
                                     description: 'Date of signature (xsd:dateTime / yyyy-mm-dd), sms uses date of reply'
                                 place:
                                     type: string
+                                    example: ''
                                     description: Place of signature
                                 digsig:
                                     type: string
+                                    example: ''
                                     description: Base64 encoded PNG signature (max 150KB)
                                 key:
                                     type: string
+                                    example: ''
                                     maxLength: 36
                                     description: Shortcode from invite URL
                                 bankSignature:
                                     type: boolean
+                                    example: ''
                                     description: B2B only; false requires bank validation
                                 check:
                                     type: boolean
+                                    example: ''
                                     description: Avoid duplicate if exists
                                 document:
                                     type: string
+                                    example: ''
                                     description: Contract in base64
             security:
                 -   AuthorizationToken: []
@@ -544,18 +605,21 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: X-RESUME-AFTER
                   in: header
                   description: Resume feed after specific sequence ID
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: X-TYPES
                   in: header
                   description: Contract types (default CORE,B2B,CREDITCARD)
                   required: false
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: The request has succeeded
@@ -633,18 +697,21 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: '{{mndtId}}'
                 - name: rsn
                   in: query
                   description: Reason of cancellation
                   required: true
                   schema:
                       type: string
+                      example: ''
                 - name: notify
                   in: query
                   description: Email customer notification
                   required: false
                   schema:
                       type: boolean
+                      example: ''
             responses:
                 '200':
                     description: The request has succeeded
@@ -673,12 +740,14 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: '{{mndtId}}'
                 - name: force
                   in: query
                   description: Also include non-signed states
                   required: false
                   schema:
                       type: boolean
+                      example: ''
             responses:
                 '200':
                     description: Details of the mandate (see /mandate feed)
@@ -723,53 +792,68 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     description: Mandate Reference
                                 ct:
                                     type: number
+                                    example: '{{ct}}'
                                     description: Move to different template (same type)
                                 state:
                                     type: string
+                                    example: ''
                                     description: Mandate state
                                     enum:
                                         - active
                                         - passive
                                 iban:
                                     type: string
+                                    example: ''
                                 bic:
                                     type: string
+                                    example: ''
                                 firstname:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: First name
                                 lastname:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Last name
                                 companyName:
                                     type: string
+                                    example: ''
                                     maxLength: 140
                                     description: Company name
                                 coc:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Enterprise number (only if companyName changed)
                                 l:
                                     type: string
+                                    example: '{{l}}'
                                     maxLength: 2
-                                    description: Language
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                 customerNumber:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Customer identifier
                                 address:
                                     type: string
+                                    example: ''
                                     description: Street (street + number)
                                 zip:
                                     type: string
+                                    example: ''
                                 city:
                                     type: string
+                                    example: ''
                                 country:
                                     type: string
+                                    example: ''
                                     description: Country (ISO 2 letters)
                                 mobile:
                                     type: string
@@ -777,6 +861,7 @@ paths:
                                     example: '+32479123123'
                                 email:
                                     type: string
+                                    example: ''
             security:
                 -   AuthorizationToken: []
             responses:
@@ -804,6 +889,7 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     description: Mandate Reference
             security:
                 -   AuthorizationToken: []
@@ -829,6 +915,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: '{{mndtId}}'
             responses:
                 '200':
                     description: PDF is available in the body of the response
@@ -860,12 +947,14 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: '{{mndtId}}'
                 - name: bankSignature
                   in: query
                   description: B2B only; false skips bank validation offer
                   required: false
                   schema:
                       type: boolean
+                      example: ''
             responses:
                 '200':
                     description: Import of the pdf was done
@@ -886,10 +975,11 @@ paths:
             parameters:
                 - name: locale
                   in: query
-                  description: 'eg. nl, nl_NL, nl_BE, de, fr, fr_FR, fr_BE, es, pt, it'
+                  description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                   required: false
                   schema:
                       type: string
+                      example: '{{l}}'
             responses:
                 '200':
                     description: The request has succeeded
@@ -916,30 +1006,35 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: customerNumber
                   in: query
                   description: Customer identifier
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: email
                   in: query
                   description: Customer email
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: state
                   in: query
                   description: Mandate state (SIGNED/PREPARED/CANCELLED)
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: page
                   in: query
                   description: Page number (500 per page)
                   required: false
                   schema:
                       type: number
+                      example: ''
             responses:
                 '200':
                     description: Contracts found
@@ -971,6 +1066,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: '{{mndtId}}'
             requestBody:
                 content:
                     application/x-www-form-urlencoded:
@@ -981,11 +1077,13 @@ paths:
                             properties:
                                 type:
                                     type: string
+                                    example: ''
                                     description: >
                                         Action type. Possible values: invite, reminder, access,
                                         automaticCheck, manualCheck
                                 reminder:
                                     type: number
+                                    example: ''
                                     description: Reminder number (1-4, only for type=reminder)
             responses:
                 '200':
@@ -1006,16 +1104,19 @@ paths:
                   in: query
                   schema:
                       type: string
+                      example: '{{mndtId}}'
                   description: Mandate Reference
                 - name: customerNumber
                   in: query
                   schema:
                       type: string
+                      example: ''
                   description: Customer number
                 - name: state
                   in: query
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - active
                           - suspended
@@ -1026,6 +1127,7 @@ paths:
                   in: query
                   schema:
                       type: number
+                      example: ''
                   description: Page number
             responses:
                 '200':
@@ -1055,12 +1157,14 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Mandate reference
                 - name: ref
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Subscription reference
             responses:
@@ -1093,25 +1197,32 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     description: Mandate to use
                                 message:
                                     type: string
+                                    example: ''
                                     description: Message to the subscriber
                                 plan:
                                     type: string
+                                    example: ''
                                     description: Base plan to use
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Amount of the transaction
                                 start:
                                     type: string
+                                    example: ''
                                     format: date
                                     description: Start date of the subscription (required, must be a future date)
                                 recurrence:
                                     type: string
+                                    example: ''
                                     description: '1w / 1m / 2m / 3m / 4m / 6m / 12m (default 1m)'
                                 stopAfter:
                                     type: number
+                                    example: ''
                                     description: Number of times to execute
             security:
                 -   AuthorizationToken: []
@@ -1120,12 +1231,14 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Mandate reference
                 - name: ref
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Subscription reference
             responses:
@@ -1144,12 +1257,14 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Mandate reference
                 - name: ref
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Subscription reference
             responses:
@@ -1168,12 +1283,14 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Mandate reference
                 - name: ref
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Subscription reference
             requestBody:
@@ -1184,12 +1301,15 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     description: Move the subscription to a different mandate
                                 message:
                                     type: string
+                                    example: ''
                                     description: Message to the subscriber
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Amount of the transaction
             responses:
                 '200':
@@ -1210,18 +1330,21 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Mandate reference
                 - name: ref
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                   description: Subscription reference
                 - name: action
                   in: path
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - suspend
                           - resume
@@ -1249,27 +1372,35 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     description: Mandate to use
                                 message:
                                     type: string
+                                    example: ''
                                     description: Message to the subscriber
                                 plan:
                                     type: string
+                                    example: ''
                                     description: Base plan to use
                                 ref:
                                     type: string
+                                    example: ''
                                     description: Reference of the subscription (important for updates)
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Amount of the transaction
                                 stopAfter:
                                     type: number
+                                    example: ''
                                     description: Number of times to execute
                                 recurrence:
                                     type: string
+                                    example: ''
                                     description: '1w / 1m / 2m / 3m / 4m / 6m / 12m (default 1m)'
                                 start:
                                     type: string
+                                    example: ''
                                     format: date
                                     description: Start of subscription eg. 2022-11-01 (required, must be a future date)
             security:
@@ -1279,6 +1410,7 @@ paths:
                   in: header
                   schema:
                       type: string
+                      example: ''
                       maxLength: 64
                   description: Unique key usable only once per request every 24hrs
             responses:
@@ -1309,31 +1441,39 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     maxLength: 35
                                     description: Mandate Reference
                                 date:
                                     type: string
+                                    example: ''
                                     format: date
                                     description: Date of the billable event or now when empty
                                 reqcolldt:
                                     type: string
+                                    example: ''
                                     format: date
                                     description: Requested collection date or null for ASAP
                                 message:
                                     type: string
+                                    example: ''
                                     maxLength: 140
                                     description: Message to the customer (appears on bank statement)
                                 ref:
                                     type: string
+                                    example: ''
                                     description: Your reference
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Amount to be billed
                                 place:
                                     type: string
+                                    example: ''
                                     description: Optional place
                                 refase2e:
                                     type: boolean
+                                    example: ''
                                     description: Use reference as E2E identifier (EPC compliant)
             security:
                 -   AuthorizationToken: []
@@ -1344,6 +1484,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 64
             responses:
                 '200':
@@ -1390,12 +1531,14 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: include
                   in: query
                   description: Additional data to include in the response (repeatable)
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - collection
                           - lastupdate
@@ -1474,21 +1617,27 @@ paths:
                             properties:
                                 id:
                                     type: string
+                                    example: ''
                                     description: Transaction id
                                 reqcolldt:
                                     type: string
+                                    example: ''
                                     description: Requested date of the billable event
                                 message:
                                     type: string
+                                    example: ''
                                     description: Message to the customer (if only 1 entry)
                                 ref:
                                     type: string
+                                    example: ''
                                     description: Your reference
                                 amount:
                                     type: string
+                                    example: ''
                                     description: Amount to be billed
                                 place:
                                     type: string
+                                    example: ''
                                     description: Optional place
             security:
                 -   AuthorizationToken: []
@@ -1518,12 +1667,14 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: ref
                   in: query
                   description: transactionReference as provided in the post to be removed
                   required: false
                   schema:
                       type: string
+                      example: ''
             responses:
                 '204':
                     description: The request has succeeded
@@ -1554,24 +1705,28 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: ref
                   in: query
                   description: 1 or more refs of a transaction
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: mndtId
                   in: query
                   description: Mandate reference
                   required: false
                   schema:
                       type: string
+                      example: '{{mndtId}}'
                 - name: state
                   in: query
                   description: Filter by transaction state
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - OPEN
                           - PAID
@@ -1583,6 +1738,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - collection
                           - lastupdate
@@ -1644,6 +1800,7 @@ paths:
                             properties:
                                 id:
                                     type: string
+                                    example: ''
                                     description: Transaction id
                                 action:
                                     type: string
@@ -1685,24 +1842,31 @@ paths:
                             properties:
                                 id:
                                     type: string
+                                    example: ''
                                     description: Transaction ID
                                 message:
                                     type: string
+                                    example: ''
                                     description: Refund message
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Refund amount
                                 ref:
                                     type: string
+                                    example: ''
                                     description: Refund reference
                                 place:
                                     type: string
+                                    example: ''
                                     description: Refund place
                                 iban:
                                     type: string
+                                    example: ''
                                     description: Beneficiary IBAN (defaults to mandate IBAN)
                                 bic:
                                     type: string
+                                    example: ''
                                     description: Beneficiary BIC
             security:
                 -   AuthorizationToken: []
@@ -1713,6 +1877,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 64
             responses:
                 '200':
@@ -1803,6 +1968,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
                       format: uuid
             responses:
                 '200':
@@ -1830,12 +1996,14 @@ paths:
                   required: true
                   schema:
                       type: number
+                      example: ''
                 - name: mndtId
                   in: query
                   description: Mandate reference
                   required: false
                   schema:
                       type: string
+                      example: '{{mndtId}}'
             responses:
                 '200':
                     description: The request has succeeded
@@ -1871,15 +2039,19 @@ paths:
                             properties:
                                 ct:
                                     type: number
+                                    example: '{{ct}}'
                                     description: Contract template for which to do the collection
                                 colltndt:
                                     type: string
+                                    example: ''
                                     description: Collection date (yyyy-mm-dd). Defaults to earliest possible batch date when omitted.
                                 prenotify:
                                     type: boolean
+                                    example: ''
                                     description: "Optional parameter, its existence will trigger the prenotification towards the debtor"
                                 until:
                                     type: number
+                                    example: ''
                                     description: Epoch in milliseconds; includes only transactions created before this timestamp
             security:
                 -   AuthorizationToken: []
@@ -1917,12 +2089,14 @@ paths:
                   required: false
                   schema:
                       type: number
+                      example: ''
                 - name: pmtinfid
                   in: query
                   description: Specific Payment identifier
                   required: false
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: Returns SDD batch status with final flag indicating completion
@@ -2070,6 +2244,7 @@ paths:
                   required: true
                   schema:
                       type: number
+                      example: '{{ct}}'
             responses:
                 '204':
                     description: Import was successful
@@ -2096,12 +2271,14 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: generated
                   in: query
                   description: Batch creation date (YYYY-MM-DD)
                   required: false
                   schema:
                       type: string
+                      example: ''
                       format: date
                 - name: reqcolldt
                   in: query
@@ -2109,6 +2286,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       format: date
                 - name: ct
                   in: query
@@ -2116,18 +2294,21 @@ paths:
                   required: false
                   schema:
                       type: number
+                      example: '{{ct}}'
                 - name: page
                   in: query
                   description: Pagination control
                   required: false
                   schema:
                       type: number
+                      example: ''
                 - name: from
                   in: query
                   description: Collections created from (including) a precise local date (YYYY-MM-DD)
                   required: false
                   schema:
                       type: string
+                      example: ''
                       format: date
                 - name: until
                   in: query
@@ -2135,6 +2316,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       format: date
             responses:
                 '200':
@@ -2169,6 +2351,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - qr
                           - redirect
@@ -2179,12 +2362,14 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: X-Force-Transaction
                   in: header
                   description: Creates transaction even if mandate suspended/cancelled
                   required: false
                   schema:
                       type: boolean
+                      example: ''
             requestBody:
                 content:
                     application/json:
@@ -2198,6 +2383,7 @@ paths:
                             properties:
                                 id:
                                     type: string
+                                    example: '{{$randomUUID}}'
                                     description: UUID (optional)
                                     maxLength: 36
                                 number:
@@ -2214,18 +2400,20 @@ paths:
                                     type: string
                                     description: Payment message; uses title if empty
                                     maxLength: 140
-                                    example: '123456789123'
+                                    example: '{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}/{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}/{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}{{$randomAlphaNumeric}}'
                                 ref:
                                     type: string
+                                    example: '{{$randomBoolean}}{{$randomBsBuzz}}'
                                     description: Internal reference
                                 ct:
                                     type: string
+                                    example: '{{ct}}'
                                     description: Template ID
                                     maxLength: 4
                                 amount:
                                     type: number
                                     description: Billing amount
-                                    example: 100
+                                    example: '{{$randomPrice}}'
                                 date:
                                     type: string
                                     format: date
@@ -2238,92 +2426,118 @@ paths:
                                     example: '{{dueDate}}'
                                 paidamount:
                                     type: number
+                                    example: 0
                                     description: Pre-payment amount
                                 locale:
                                     type: string
-                                    description: Language (en, nl, nl_nl, fr, fr_fr, de, it, pt, es)
+                                    example: '{{l}}'
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                 customer:
                                     type: object
                                     description: Customer object (required if no customerByDocument/customerByRef)
                                     properties:
                                         customerNumber:
                                             type: string
+                                            example: '{{$randomUUID}}'
                                             description: Customer number (either customerNumber or email required)
                                             maxLength: 50
                                         email:
                                             type: string
+                                            example: 'debtor@example.com'
                                             description: Customer email (either customerNumber or email required)
                                             maxLength: 70
                                         firstname:
                                             type: string
+                                            example: '{{$randomFirstName}}'
                                             maxLength: 50
                                         lastname:
                                             type: string
+                                            example: '{{$randomLastName}}'
                                             maxLength: 50
                                         companyName:
                                             type: string
+                                            example: ''
                                             maxLength: 140
                                         coc:
                                             type: string
+                                            example: ''
                                             maxLength: 50
                                         vatno:
                                             type: string
+                                            example: ''
                                             maxLength: 50
                                         l:
                                             type: string
-                                            description: Language code
+                                            example: '{{l}}'
+                                            description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                             maxLength: 2
                                         address:
                                             type: string
+                                            example: 'Derbystraat 43'
                                             maxLength: 70
                                         city:
                                             type: string
+                                            example: 'Gent'
                                             maxLength: 50
                                         zip:
                                             type: string
+                                            example: '9000'
                                             maxLength: 50
                                         country:
                                             type: string
+                                            example: 'BE'
                                             description: ISO 3166-1 alpha-2 country code
                                             maxLength: 2
                                         mobile:
                                             type: string
+                                            example: ''
                                             maxLength: 50
                                         peppol:
                                             type: string
+                                            example: ''
                                             maxLength: 50
                                 customerByDocument:
                                     type: string
+                                    example: ''
                                     description: Mandate reference (e.g. MNDT123)
                                 customerByRef:
                                     type: string
+                                    example: ''
                                     description: Customer number reference
                                 manual:
                                     type: boolean
+                                    example: false
                                     description: Skip auto-collection on creation
                                 pdf:
                                     type: string
+                                    example: ''
                                     description: Base64-encoded document
                                 pdfUrl:
                                     type: string
+                                    example: 'https://example.com/invoice.pdf'
                                     format: uri
                                     description: Direct PDF URL (use pdf OR pdfUrl, not both)
                                 redirectUrl:
                                     type: string
+                                    example: 'https://example.com/thank-you'
                                     format: uri
                                     description: Post-payment redirect URL
                                 email:
                                     type: string
+                                    example: ''
                                     description: Alternative invoicing email
                                     maxLength: 70
                                 relatedInvoiceNumber:
                                     type: string
+                                    example: ''
                                     description: Link credit note to invoice
                                 cc:
                                     type: string
+                                    example: ''
                                     description: CC email addresses (comma-separated)
                                 campaign:
                                     type: string
+                                    example: ''
                                     description: Billing run assignment
             security:
                 -   AuthorizationToken: []
@@ -2357,6 +2571,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - meta
                           - customer
@@ -2367,6 +2582,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - ok
                           - fail
@@ -2389,6 +2605,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                 - name: include
                   in: query
@@ -2396,6 +2613,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - meta
                           - customer
@@ -2406,6 +2624,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - ok
                           - fail
@@ -2438,6 +2657,7 @@ paths:
                             properties:
                                 title:
                                     type: string
+                                    example: ''
                                     description: Invoice title
                                 date:
                                     type: string
@@ -2451,12 +2671,15 @@ paths:
                                     example: '{{dueDate}}'
                                 pdf:
                                     type: string
+                                    example: ''
                                     description: Base64-encoded document
                                 ref:
                                     type: string
+                                    example: ''
                                     description: Reference
                                 state:
                                     type: string
+                                    example: ''
                                     description: Invoice state
                                     enum:
                                         - booked
@@ -2464,6 +2687,7 @@ paths:
                                         - paid
                                 extra:
                                     type: object
+                                    example: ''
                                     description: Custom attributes
             security:
                 -   AuthorizationToken: []
@@ -2472,6 +2696,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
             responses:
                 '200':
@@ -2501,6 +2726,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
             responses:
                 '204':
@@ -2518,6 +2744,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
             requestBody:
                 content:
@@ -2529,6 +2756,7 @@ paths:
                             properties:
                                 type:
                                     type: string
+                                    example: ''
                                     description: Action type
                                     enum:
                                         - send
@@ -2543,24 +2771,31 @@ paths:
                                         - paymentplan
                                 message:
                                     type: string
+                                    example: ''
                                     description: Refund message
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Refund amount
                                 initialAmount:
                                     type: number
+                                    example: ''
                                     description: Payment plan initial amount
                                 recurringAmount:
                                     type: number
+                                    example: ''
                                     description: Payment plan monthly amount
                                 terms:
                                     type: number
+                                    example: ''
                                     description: Payment plan duration (months)
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                     description: Mandate reference
                                 remittance:
                                     type: string
+                                    example: ''
                                     description: Payment plan remittance message
             responses:
                 '204':
@@ -2580,12 +2815,14 @@ paths:
                   required: false
                   schema:
                       type: boolean
+                      example: ''
                 - name: X-INVOICE-ID
                   in: header
                   description: Custom invoice UUID
                   required: false
                   schema:
                       type: string
+                      example: ''
                       format: uuid
                 - name: X-TEMPLATE
                   in: header
@@ -2593,18 +2830,21 @@ paths:
                   required: false
                   schema:
                       type: integer
+                      example: ''
                 - name: X-CONTRACT
                   in: header
                   description: Mandate number
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: X-PARTNER
                   in: header
                   description: Registration source
                   required: false
                   schema:
                       type: string
+                      example: ''
             requestBody:
                 content:
                     application/xml:
@@ -2755,6 +2995,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
             responses:
                 '200':
@@ -2785,6 +3026,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
             responses:
                 '200':
@@ -2917,6 +3159,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
                       format: uuid
             responses:
                 '200':
@@ -3066,6 +3309,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: Successful response
@@ -3092,60 +3336,76 @@ paths:
                             properties:
                                 customerNumber:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Customer identifier (strongly advised)
                                 email:
                                     type: string
+                                    example: ''
                                     maxLength: 70
                                     description: Email of the customer
                                 lastname:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Customer last name
                                 firstname:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Customer first name
                                 companyName:
                                     type: string
+                                    example: ''
                                     maxLength: 140
                                     description: Business name
                                 coc:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Enterprise number
                                 l:
                                     type: string
+                                    example: '{{l}}'
                                     maxLength: 5
-                                    description: Language code (en, nl, nl_nl, fr, fr_fr, de, it, pt, es)
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                 mobile:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: Mobile phone number
                                 ct:
                                     type: string
+                                    example: '{{ct}}'
                                     description: Contract template
                                 title:
                                     type: string
+                                    example: ''
                                     maxLength: 140
                                     description: Message visible on bank statement (required)
                                 remittance:
                                     type: string
+                                    example: ''
                                     description: Payment reference (aliased as ref). Defaults to title if empty
                                 amount:
                                     type: string
+                                    example: ''
                                     description: Amount to be billed
                                 redirectUrl:
                                     type: string
+                                    example: ''
                                     description: Post-payment redirect (requires http:// or https://)
                                 place:
                                     type: string
+                                    example: ''
                                     description: Optional location field
                                 expiry:
                                     type: string
+                                    example: ''
                                     description: Expiration date (UTC timestamp supported by some PSPs)
                                 sendInvite:
                                     type: string
+                                    example: ''
                                     description: Send out invite directly
                                     enum:
                                         - email
@@ -3153,25 +3413,31 @@ paths:
                                         - registeredEmail
                                 address:
                                     type: string
+                                    example: ''
                                     maxLength: 70
                                     description: Street and number
                                 city:
                                     type: string
+                                    example: ''
                                     maxLength: 50
                                     description: City name
                                 zip:
                                     type: string
+                                    example: ''
                                     maxLength: 12
                                     description: Postal code
                                 country:
                                     type: string
+                                    example: ''
                                     maxLength: 2
                                     description: ISO 2-letter country code (eg. BE/NL/FR)
                                 txref:
                                     type: string
+                                    example: ''
                                     description: Reference from unpaid transactions (consolidates multiple)
                                 method:
                                     type: string
+                                    example: ''
                                     description: Payment method (bypass PSP selection)
                                     enum:
                                         - bancontact
@@ -3188,9 +3454,11 @@ paths:
                                         - banktrans
                                 invoice:
                                     type: string
+                                    example: ''
                                     description: Invoice number for invoice-specific links
                                 isTemplate:
                                     type: boolean
+                                    example: ''
                                     description: Redirects to custom payment form when true
             security:
                 -   AuthorizationToken: []
@@ -3201,12 +3469,14 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: X-Purpose
                   in: header
                   description: 'Alters URL for specific use cases: qr (scannable by bank apps) or redirect (branded URL, default)'
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - qr
                           - redirect
@@ -3283,16 +3553,19 @@ paths:
                   description: Id of the created link
                   schema:
                       type: string
+                      example: ''
                 - name: ref
                   in: query
                   description: Your reference
                   schema:
                       type: string
+                      example: ''
                 - name: include
                   in: query
                   description: Additional data to include in the response
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - meta
                           - refunds
@@ -3355,6 +3628,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: Successful response
@@ -3376,12 +3650,14 @@ paths:
                   required: false
                   schema:
                       type: boolean
+                      example: ''
                 - name: include
                   in: query
                   description: Additional data to include in the response (repeatable)
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - customer
                           - meta
@@ -3423,6 +3699,7 @@ paths:
                   required: true
                   schema:
                       type: number
+                      example: '{{ct}}'
             responses:
                 '200':
                     description: The request has succeeded
@@ -3459,12 +3736,15 @@ paths:
                             properties:
                                 id:
                                     type: string
+                                    example: ''
                                     description: Payment link identifier
                                 message:
                                     type: string
+                                    example: ''
                                     description: Refund description
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Full or partial refund amount (defaults to full)
             security:
                 -   AuthorizationToken: []
@@ -3475,6 +3755,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: Successful response
@@ -3520,25 +3801,32 @@ paths:
                             properties:
                                 customerNumber:
                                     type: string
+                                    example: ''
                                     description: Customer identifier (strongly recommended)
                                 iban:
                                     type: string
+                                    example: ''
                                     description: Active beneficiary IBAN (requires the registration in settings > credit transfer)
                                 message:
                                     type: string
+                                    example: ''
                                     description: Message to the creditor
                                     maxLength: 140
                                 ref:
                                     type: string
+                                    example: ''
                                     description: Transaction reference
                                 amount:
                                     type: number
+                                    example: ''
                                     description: Amount to be send
                                 date:
                                     type: string
+                                    example: ''
                                     description: Required execution date of the transaction (ReqdExctnDt)
                                 place:
                                     type: string
+                                    example: ''
                                     description: Optional place
             security:
                 -   AuthorizationToken: []
@@ -3549,6 +3837,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 64
             responses:
                 '200':
@@ -3599,6 +3888,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - seq
             responses:
@@ -3628,6 +3918,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: Successful response
@@ -3663,6 +3954,7 @@ paths:
                             properties:
                                 iban:
                                     type: string
+                                    example: ''
                                     description: 'Originating account, bank account with refunds enabled from your Payment Hub'
             security:
                 -   AuthorizationToken: []
@@ -3706,12 +3998,14 @@ paths:
                   required: false
                   schema:
                       type: number
+                      example: ''
                 - name: pmtinfid
                   in: query
                   description: pmtinfid returned in the submit
                   required: false
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: The request has succeeded
@@ -3770,53 +4064,66 @@ paths:
                             properties:
                                 customerNumber:
                                     type: string
+                                    example: ''
                                     description: Customer identifier
                                     maxLength: 50
                                 name:
                                     type: string
+                                    example: ''
                                     description: Debtor full name
                                 email:
                                     type: string
+                                    example: ''
                                     description: Debtor email
                                     maxLength: 70
                                 l:
                                     type: string
-                                    description: ISO language (2 letters)
+                                    example: '{{l}}'
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                                     maxLength: 2
                                 mobile:
                                     type: string
+                                    example: ''
                                     description: International format (+32499123445)
                                     maxLength: 50
                                 companyName:
                                     type: string
+                                    example: ''
                                     description: Organization name
                                     maxLength: 140
                                 vatno:
                                     type: string
+                                    example: ''
                                     description: Enterprise number
                                     maxLength: 50
                                 iban:
                                     type: string
+                                    example: ''
                                     description: Beneficiary IBAN
                                     maxLength: 35
                                 bic:
                                     type: string
+                                    example: ''
                                     description: Bank identifier code
                                     maxLength: 11
                                 address:
                                     type: string
+                                    example: ''
                                     description: Street and number/box
                                     maxLength: 70
                                 city:
                                     type: string
+                                    example: ''
                                     description: City
                                     maxLength: 50
                                 zip:
                                     type: string
+                                    example: ''
                                     description: Postal code
                                     maxLength: 12
                                 country:
                                     type: string
+                                    example: ''
                                     description: ISO format (2 letters)
                                     maxLength: 2
             security:
@@ -3854,6 +4161,7 @@ paths:
                   in: path
                   schema:
                       type: string
+                      example: ''
                   required: true
                 - name: customerNumber
                   in: query
@@ -3861,6 +4169,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
             responses:
                 '204':
                     description: Succeeded, no content
@@ -3893,6 +4202,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
             responses:
                 '200':
                     description: The request has succeeded
@@ -3934,6 +4244,7 @@ paths:
                   description: The identification method to retrieve issuers for
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - emachtiging
                           - idin
@@ -3944,6 +4255,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       enum:
                           - core
                           - b2b
@@ -3978,6 +4290,7 @@ paths:
                   description: Current customer number (used in the URL path)
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                   required: true
                 - name: ct
@@ -3986,13 +4299,15 @@ paths:
                   required: false
                   schema:
                       type: integer
+                      example: '{{ct}}'
                       maximum: 9999
                 - name: l
                   in: query
-                  description: Language (en/fr/nl/de/pt/es/it)
+                  description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
                   required: false
                   schema:
                       type: string
+                      example: '{{l}}'
                       maxLength: 2
                 - name: customerNumber
                   in: query
@@ -4000,6 +4315,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                 - name: email
                   in: query
@@ -4007,6 +4323,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 70
                 - name: lastname
                   in: query
@@ -4014,6 +4331,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                 - name: firstname
                   in: query
@@ -4021,6 +4339,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                 - name: mobile
                   in: query
@@ -4028,6 +4347,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                 - name: address
                   in: query
@@ -4035,6 +4355,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 70
                 - name: city
                   in: query
@@ -4042,6 +4363,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                 - name: zip
                   in: query
@@ -4049,6 +4371,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
                 - name: country
                   in: query
@@ -4056,6 +4379,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 2
                 - name: companyName
                   in: query
@@ -4063,6 +4387,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 140
                 - name: coc
                   in: query
@@ -4070,6 +4395,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      example: ''
                       maxLength: 50
             responses:
                 '204':
@@ -4109,15 +4435,19 @@ paths:
                             properties:
                                 iban:
                                     type: string
+                                    example: ''
                                     description: Bank account to blacklist
                                 rsn:
                                     type: string
+                                    example: ''
                                     description: Reason for blacklisting
                                 state:
                                     type: string
+                                    example: ''
                                     description: Use "passive" to suspend or "cancel" to cancel mandates
                                 notify:
                                     type: boolean
+                                    example: ''
                                     description: Email customer notification
             security:
                 -   AuthorizationToken: []
@@ -4166,18 +4496,21 @@ paths:
                   required: true
                   schema:
                       type: string
+                      example: ''
                 - name: state
                   in: query
                   description: Use "active" to reactivate suspended mandates
                   required: false
                   schema:
                       type: string
+                      example: ''
                 - name: notify
                   in: query
                   description: Customer notification
                   required: false
                   schema:
                       type: boolean
+                      example: ''
             responses:
                 '200':
                     description: The request has succeeded
@@ -4229,16 +4562,20 @@ paths:
                             properties:
                                 ct:
                                     type: string
+                                    example: '{{ct}}'
                                     description: Template with originating account
                                 bic:
                                     type: string
+                                    example: ''
                                     description: Bank BIC code (iDIN only)
                                 method:
                                     type: string
+                                    example: ''
                                     description: Identification method to use (itsme or idin)
                                 l:
                                     type: string
-                                    description: Language
+                                    example: '{{l}}'
+                                    description: Language (en/fr/fr_FR/nl/nl_NL/de/pt/es/it)
             security:
                 -   AuthorizationToken: []
             responses:
@@ -4278,35 +4615,45 @@ paths:
                             properties:
                                 mndtId:
                                     type: string
+                                    example: '{{mndtId}}'
                                 date:
                                     type: string
+                                    example: ''
                                 reqcolldt:
                                     type: string
+                                    example: ''
                                 message:
                                     type: string
+                                    example: ''
                                 ref:
                                     type: string
+                                    example: ''
                                 amount:
                                     type: string
+                                    example: ''
                                 place:
                                     type: string
+                                    example: ''
                                 reservation:
                                     type: boolean
                                     description: Indicates this is a reservation (must be true)
                                     example: 'true'
                                 reservationMinimum:
                                     type: string
+                                    example: ''
                                     description: >-
                                         Optional value, which if passed allows Twikey to reserve the
                                         highest amount lower than the amount but higher than this
                                         value
                                 reservationExpiration:
                                     type: string
+                                    example: ''
                                     description: >-
                                         Optional, Date after which this reservation automatically is
                                         voided (YYYY-MM-DDThh:mm:ssZ)
                                 force:
                                     type: boolean
+                                    example: ''
                                     description: Force a new reservation replacing an existing one
             security:
                 -   AuthorizationToken: []
@@ -4377,14 +4724,17 @@ paths:
                             properties:
                                 name:
                                     type: string
+                                    example: ''
                                     description: Account holder name
                                     maxLength: 70
                                 iban:
                                     type: string
+                                    example: ''
                                     description: IBAN to verify
                                     maxLength: 34
                                 flavour:
                                     type: string
+                                    example: ''
                                     description: Country variant for the check
                                     maxLength: 2
                                     enum:
@@ -4392,9 +4742,11 @@ paths:
                                         - it
                                 codfis:
                                     type: string
+                                    example: ''
                                     description: Fiscal code (Italy only)
                                 vatno:
                                     type: string
+                                    example: ''
                                     description: VAT number (Italy only, takes precedence over codfis)
             security:
                 -   AuthorizationToken: []

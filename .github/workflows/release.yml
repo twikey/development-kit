@@ -4,8 +4,8 @@ on:
   push:
     branches: [master]
     paths:
-      - docs/postman.json
       - docs/openapi.yaml
+      - docs/portman/**
 
 jobs:
   release:
@@ -15,10 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract version from postman.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Portman dependencies
+        run: npm ci
+        working-directory: docs/portman
+
+      - name: Generate Postman collection
+        run: npm run generate
+        working-directory: docs/portman
+
+      - name: Extract version from openapi.yaml
         id: version
         run: |
-          VERSION=$(grep -oP 'Version:\s*\K[0-9]+\.[0-9]+\.[0-9]+' docs/postman.json | head -1)
+          VERSION=$(grep -oP 'version:\s*\K[0-9]+\.[0-9]+\.[0-9]+' docs/openapi.yaml | head -1)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
