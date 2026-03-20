@@ -1,0 +1,12 @@
+{
+  "name": "twikey-portman",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generates Postman collection from OpenAPI spec using Portman",
+  "scripts": {
+    "generate": "portman --cliOptionsFile portman-cli.json"
+  },
+  "devDependencies": {
+    "@apideck/portman": "^1.29.0"
+  }
+}
