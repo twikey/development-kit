@@ -1,5 +1,6 @@
 {
   "local": "../openapi.yaml",
   "output": "../postman.json",
-  "portmanConfigFile": "portman-config.json"
+  "portmanConfigFile": "portman-config.json",
+  "postmanConfigFile": "postman-config.json"
 }

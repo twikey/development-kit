@@ -5,7 +5,16 @@
       "baseUrl": "https://api.beta.twikey.com/creditor",
       "api_key": "",
       "Authorization": "",
-      "ct": ""
+      "ct": "",
+      "mndtId": "",
+      "l": "en"
+    },
+    "securityOverwrites": {
+      "apiKey": {
+        "value": "{{Authorization}}",
+        "key": "Authorization",
+        "in": "header"
+      }
     }
   },
   "tests": {
@@ -132,6 +141,23 @@
       }
     ]
   },
+  "overwrites": [
+    {
+      "openApiOperation": "POST::/",
+      "overwriteRequestBody": [
+        {
+          "key": "apiToken",
+          "value": "{{api_key}}",
+          "overwrite": true
+        },
+        {
+          "key": "otp",
+          "value": "",
+          "overwrite": true
+        }
+      ]
+    }
+  ],
   "operationPreRequestScripts": [
     {
       "openApiOperation": "POST::/invoice",
