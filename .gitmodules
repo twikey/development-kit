@@ -1,21 +1,21 @@
 [submodule "twikey-api-php"]
 	path = twikey-api-php
-	url = git@github.com:twikey/twikey-api-php.git
+	url = https://github.com/twikey/twikey-api-php.git
 [submodule "twikey-api-go"]
 	path = twikey-api-go
-	url = git@github.com:twikey/twikey-api-go.git
+	url = https://github.com/twikey/twikey-api-go.git
 [submodule "twikey-api-java"]
 	path = twikey-api-java
-	url = git@github.com:twikey/twikey-api-java.git
+	url = https://github.com/twikey/twikey-api-java.git
 [submodule "twikey-api-python"]
 	path = twikey-api-python
-	url = git@github.com:twikey/twikey-api-python.git
+	url = https://github.com/twikey/twikey-api-python.git
 [submodule "twikey-api-dotnet"]
 	path = twikey-api-dotnet
-	url = git@github.com:twikey/twikey-api-dotnet.git
+	url = https://github.com/twikey/twikey-api-dotnet.git
 [submodule "twikey-api-node"]
 	path = twikey-api-node
-	url = git@github.com:twikey/twikey-api-node.git
+	url = https://github.com/twikey/twikey-api-node.git
 [submodule "twikey-api-ruby"]
 	path = twikey-api-ruby
-	url = git@github.com:twikey/twikey-api-ruby.git
+	url = https://github.com/twikey/twikey-api-ruby.git
