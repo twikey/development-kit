@@ -4,7 +4,7 @@
   "private": true,
   "description": "Generates Postman collection from OpenAPI spec using Portman",
   "scripts": {
-    "generate": "portman --cliOptionsFile portman-cli.json"
+    "generate": "portman --cliOptionsFile portman-cli.json && node scripts/fix-root-path.js"
   },
   "devDependencies": {
     "@apideck/portman": "^1.29.0"
