@@ -52,6 +52,27 @@
           "file:scripts/mandate-detail.test.js"
         ],
         "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/transaction",
+        "tests": [
+          "file:scripts/transaction-new.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/transaction",
+        "tests": [
+          "file:scripts/transaction-feed.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/transaction/detail",
+        "tests": [
+          "file:scripts/transaction-status.test.js"
+        ],
+        "overwrite": true
       }
     ]
   }
