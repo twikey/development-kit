@@ -87,7 +87,35 @@
           "file:scripts/collect-status.test.js"
         ],
         "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/invoice",
+        "tests": [
+          "file:scripts/invoice-new.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "PUT::/invoice/{uuid}",
+        "tests": [
+          "file:scripts/invoice-update.test.js"
+        ],
+        "overwrite": true
       }
     ]
-  }
+  },
+  "operationPreRequestScripts": [
+    {
+      "openApiOperation": "POST::/invoice",
+      "scripts": [
+        "file:scripts/invoice-prerequest.js"
+      ]
+    },
+    {
+      "openApiOperation": "PUT::/invoice/{uuid}",
+      "scripts": [
+        "file:scripts/invoice-update-prerequest.js"
+      ]
+    }
+  ]
 }
