@@ -1,0 +1,21 @@
+{
+  "version": 1.0,
+  "globals": {
+    "collectionVariables": {
+      "baseUrl": "https://api.beta.twikey.com/creditor",
+      "api_key": "",
+      "Authorization": "",
+      "ct": ""
+    }
+  },
+  "tests": {
+    "contractTests": [
+      {
+        "openApiOperation": "*::/*",
+        "statusSuccess": {
+          "enabled": true
+        }
+      }
+    ]
+  }
+}
