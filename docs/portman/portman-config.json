@@ -24,6 +24,34 @@
           "file:scripts/login.test.js"
         ],
         "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/invite",
+        "tests": [
+          "file:scripts/mandate-invite.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "POST::/sign",
+        "tests": [
+          "file:scripts/mandate-sign.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/mandate",
+        "tests": [
+          "file:scripts/mandate-feed.test.js"
+        ],
+        "overwrite": true
+      },
+      {
+        "openApiOperation": "GET::/mandate/detail",
+        "tests": [
+          "file:scripts/mandate-detail.test.js"
+        ],
+        "overwrite": true
       }
     ]
   }
