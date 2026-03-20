@@ -16,6 +16,15 @@
           "enabled": true
         }
       }
+    ],
+    "extendTests": [
+      {
+        "openApiOperation": "POST::/",
+        "tests": [
+          "file:scripts/login.test.js"
+        ],
+        "overwrite": true
+      }
     ]
   }
 }
