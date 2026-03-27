@@ -10,7 +10,7 @@ info:
     title: 'Twikey API kit'
     description: |
         
-        Version: 1.0.4
+        
 
         ## General use
 
@@ -32,7 +32,7 @@ info:
 
 
 
-    version: 1.0.3
+    version: 1.0.4
     termsOfService: 'https://twikey.com/tc.html'
     contact:
         email: support@twikey.com

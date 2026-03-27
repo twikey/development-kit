@@ -38,6 +38,14 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
+          body: |
+            ## Twikey API Kit
+
+            Download the assets below to get started:
+            - **postman.json** — Import into [Postman](https://www.postman.com/) to explore and test the API
+            - **openapi.yaml** — OpenAPI 3.0 specification for code generation and documentation
+
+            Both files are also available in the [`docs/`](https://github.com/twikey/development-kit/tree/master/docs) folder of the repository.
           files: |
             docs/postman.json
             docs/openapi.yaml
